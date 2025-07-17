@@ -24,7 +24,7 @@ try:
     CREATE TABLE IF NOT EXISTS BOOKS (
         book_id VARCHAR(150) PRIMARY KEY,
         book_title VARCHAR(200),
-        available BOOLEAN DEFAULT TRUE NOT NULL
+        quantity INT
     )
     """)
 
@@ -51,7 +51,7 @@ def borrow_book():
         name = input("Enter your name: ")
         user_id = input("Enter your id: ")
 
-        cursor.execute("SELECT * FROM BOOKS WHERE available = TRUE")
+        cursor.execute("SELECT * FROM BOOKS WHERE quantity>0")
         books = cursor.fetchall()
         if not books:
             print("No books available.\n")
@@ -60,7 +60,12 @@ def borrow_book():
         print("--AVAILABLE BOOKS--")
         for book in books:
             print(f"{book[0]} : {book[1]}")
-
+        num_books=int(input("ENTER NUMBER OF BOOKS YOU WISH TO BORROW--")
+        borrowed=[]
+        if num_books>10:
+                      print("YOU CANNOT BORROW MORE THAN 10 BOOKS")
+        for i in range(num_books)
+                      
         book_id = input("Enter your book id to borrow: ")
         cursor.execute("SELECT book_title FROM BOOKS WHERE book_id=%s AND available=TRUE", (book_id,))
         res = cursor.fetchone()
@@ -78,12 +83,12 @@ def borrow_book():
             VALUES (%s, %s, %s, %s, %s, %s)
         """, (name, user_id, book_id, book_title, borrow, return_due))
 
-        cursor.execute("UPDATE BOOKS SET available = FALSE WHERE book_id = %s", (book_id,))
-        db.commit()
-        print(f"\nBorrowed {book_title} (ID: {book_id}). Return by {return_due}.\n")
-    except Exception as e:
-        print("Error", e)
-
+        cursor.execute("UPDATE BOOKS SET quantity= quantiti - 1  book_id = %s", (book_id,))
+    db.commit()
+    print(f"\nBorrowed {book_title} (ID: {book_id}). Return by {return_due}.\n")
+except Exception as e:
+    print("Error", e)
+        
 def return_book():
     try:
         name = input("Enter your name: ")
